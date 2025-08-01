@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
+import TaskList from "./Components/TaskList";
+import NewTask from "./Components/NewTask"; // Import the NewTask component
 
-function App() {
+const App = () => {
+  const [showRegister, setShowRegister] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [showNewTask, setShowNewTask] = useState(false);
+  const [tasks, setTasks] = useState([]);
+
+  const handleCreateTask = (newTask) => {
+    // Add the new task with default "To Do" status
+    setTasks([...tasks, { 
+      ...newTask, 
+      id: Date.now(), 
+      status: "To Do",
+      dueDate: newTask.dueDate || "No due date"
+    }]);
+    setShowNewTask(false);
+  };
+
+  const handleLoginSuccess = () => {
+    setLoggedIn(true);
+    setShowNewTask(true); // Show NewTask form after login
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="min-h-screen bg-gray-100">
+      {!loggedIn ? (
+        showRegister ? (
+          <Register 
+            onLoginClick={() => setShowRegister(false)}
+            onRegisterSuccess={handleLoginSuccess}
+          />
+        ) : (
+          <Login 
+            onRegisterClick={() => setShowRegister(true)}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        )
+      ) : showNewTask ? (
+        <NewTask 
+          onCreateTask={handleCreateTask}
+          onCancel={() => setLoggedIn(false)} // Goes back to login if canceled
+        />
+      ) : (
+        <TaskList 
+          tasks={tasks} 
+          onLogout={() => setLoggedIn(false)}
+          onNewTask={() => setShowNewTask(true)} // Add this prop to TaskList
+        />
+      )}
     </div>
   );
-}
+};
 
 export default App;
