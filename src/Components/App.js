@@ -1,4 +1,4 @@
-// File: App.js (Updated)
+
 import React, { useState, useEffect } from "react";
 import Login from "./Components/Login";
 import Register from "./Components/Register";
