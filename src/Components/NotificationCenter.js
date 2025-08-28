@@ -1,4 +1,4 @@
-// File: NotificationCenter.js
+
 import React, { useState, useEffect } from "react";
 
 const NotificationCenter = ({ notifications, onMarkAsRead }) => {
