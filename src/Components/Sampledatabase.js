@@ -1,4 +1,4 @@
-// Sample database schema implementation
+
 const databaseSchema = {
     users: [
         {

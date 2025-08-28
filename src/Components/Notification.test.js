@@ -1,4 +1,4 @@
-// File: Notification.test.js
+
 import { checkNotificationRules, createNotification } from './notificationService';
 
 describe('Notification System', () => {
